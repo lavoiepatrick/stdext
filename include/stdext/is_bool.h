@@ -1,3 +1,4 @@
+/*
 MIT License
 
 Copyright (c) 2021 Patrick Lavoie
@@ -19,3 +20,24 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+*/
+
+#pragma once
+
+namespace stdext
+{
+template< typename T, typename TD = std::decay_t< T >, typename = void >
+struct is_bool : std::false_type
+{
+};
+
+template< typename T, typename TD >
+struct is_bool< T,
+				TD,  // TD = std::decay_t< T >,
+				std::enable_if_t< std::is_same_v< std::decay_t< TD >, bool > > > : std::true_type
+{
+};
+
+template< typename T >
+inline constexpr bool is_bool_v = is_bool< T >::value;
+}  // namespace stdext

@@ -1,3 +1,4 @@
+/*
 MIT License
 
 Copyright (c) 2021 Patrick Lavoie
@@ -19,3 +20,27 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+*/
+
+#include <memory>
+#include <tuple>
+
+namespace stdext
+{
+namespace detail
+{
+template< class T, class Tuple, std::size_t... I >
+constexpr std::shared_ptr< T > make_shared_from_tuple_impl( Tuple&& t, std::index_sequence< I... > )
+{
+	return std::make_shared< T >( std::get< I >( std::forward< Tuple >( t ) )... );
+}
+}  // namespace detail
+
+template< class T, class Tuple >
+constexpr std::shared_ptr< T > make_shared_from_tuple( Tuple&& t )
+{
+	return detail::make_shared_from_tuple_impl< T >(
+		std::forward< Tuple >( t ),
+		std::make_index_sequence< std::tuple_size_v< std::remove_reference_t< Tuple > > > { } );
+}
+}  // namespace stdext
