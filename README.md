@@ -1,8 +1,6 @@
 # stdext
 **stdext** contains various include only C++ extension to the standard library.
 
-#TOC
-- [stdext](#stdext)
 - [bit_mask_operators.h](#bit_mask_operatorsh)
 - [for_tuple](#for_tuple)
 - [is_bool](#is_bool)
